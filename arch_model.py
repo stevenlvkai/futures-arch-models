@@ -129,9 +129,9 @@ def get_coefficient(ind):
 
     else:
         characteristic.append('否')
-        arch_final=['Null']
-        garch_final=['Null']
-        egarch_final=['Null']
+        arch_final=pd.DataFrame()
+        garch_final=pd.DataFrame()
+        egarch_final=pd.DataFrame()
         
     return characteristic,arch_final,garch_final,egarch_final
 
@@ -165,9 +165,21 @@ if __name__=='__main__':
     final['arch coefficient']=arch_all    
     final['garch coefficient']=garch_all
     final['egarch coefficient']=egarch_all
-    '''
+    
     #输出dataframe至excel    
     writer = pd.ExcelWriter('D:\\output.xlsx')
-    final.to_excel(writer,'Sheet1')
+    for i in range(n):
+        a=arch_all[i].T
+        a.to_excel(writer, 'ARCH', startrow=i*3, startcol=0,index_label=index[i])
+    
+    
+    for i in range(n):
+        g=garch_all[i].T
+        g.to_excel(writer, 'GARCH', startrow=i*3, startcol=0,index_label=index[i])
+    
+    
+    for i in range(n):
+        e=egarch_all[i].T
+        e.to_excel(writer, 'EGARCH', startrow=i*3, startcol=0,index_label=index[i])    
     writer.save()
-    '''
+    
